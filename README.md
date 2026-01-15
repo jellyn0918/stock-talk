@@ -136,6 +136,46 @@ client = openai.OpenAI(
 
 **⚠️ 注意:** 生产环境中应该使用环境变量存储API密钥
 
+## 网络配置
+
+### Git 推送绕过代理
+
+如果遇到 Git 推送被代理拦截的问题（如 `Connection closed by 127.0.0.1 port 1086`），可以配置 Git 禁用代理：
+
+#### 方法 1: 全局配置（推荐）
+
+```bash
+# 配置 Git 全局禁用 HTTP/HTTPS 代理
+git config --global http.proxy ""
+git config --global https.proxy ""
+```
+
+#### 方法 2: 临时禁用代理
+
+如果只想临时禁用代理，可以在推送时添加参数：
+
+```bash
+git -c http.proxy= -c https.proxy= push origin main
+```
+
+#### 方法 3: 仅对 GitHub 禁用代理
+
+如果只想对 GitHub 禁用代理：
+
+```bash
+git config --global http.https://github.com.proxy ""
+```
+
+#### 验证配置
+
+```bash
+# 查看当前代理配置
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+# 如果返回空，说明已成功禁用代理
+```
+
 ## 特性说明
 
 ### 对话历史
